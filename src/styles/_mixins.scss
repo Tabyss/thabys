@@ -1,0 +1,16 @@
+@mixin font-size($desktop, $tablet: null, $mobile: null) {
+    font-size: $desktop;
+    line-height: $desktop * 1.5;
+    @if $tablet {
+        @media (max-width: 1024px) {
+            font-size: $tablet;
+            line-height: $tablet * 1.5;
+        }
+    }
+    @if $mobile {
+        @media (max-width: 768px) {
+            font-size: $mobile;
+            line-height: $mobile * 1.5;
+        }
+    }
+}
