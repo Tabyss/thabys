@@ -6,12 +6,24 @@
     height: 100vh;
     padding: 20px;
     background-color: $purple-dark;
+    z-index: 10;
+    // &::after{
+    //     content: "";
+    //     display: block;
+    //     position: absolute;
+    //     bottom: -40vh;
+    //     left: 0;
+    //     background-color: $purple-dark;
+    //     height: 40vh;
+    //     width: 100vw;
+        
+    // }
     &-head {
         @include font-size(7rem, 5rem, 2.5rem);
-        position: relative;
-        display: flex;
-        flex-direction: column;
         margin-top: 30vh;
+        position: relative;
+        flex-direction: column;
+        display: flex;
         text-align: center;
         h1 {
             text-align: center;
@@ -63,6 +75,8 @@
         }
     }
 }
+
+
 
 @media (max-width: $breakpoint-mobile) {
     .hero {

@@ -1,0 +1,114 @@
+$colors: (
+    $yellow,
+    $red,
+    $pink-light,
+    $purple-light,
+    $purple-dark,
+    $green,
+    $teal,
+    $light
+);
+
+$items : 100;
+
+.daily {
+    width: 100vw;
+    height: 100%;
+    padding: 20vh 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: $blue-light;
+    h1 {
+        @include font-size(7rem, 5rem, 2.5rem);
+        color: $dark;
+    }
+    .input {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        max-width: 100%;
+        border-radius: 24px;
+        border: 3px solid $dark;
+        padding: 12px;
+        background: white;
+        textarea {
+            min-width: 400px;
+            min-height: 120px;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 12px;
+            color: $dark;
+            font-size: 16px;
+            background: $light;
+        }
+        .button {
+            position: relative;
+            margin-bottom: 10px;
+            .shadow {
+                content: "";
+                z-index: 1;
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 10px;
+                left: 0;
+                border-radius: 12px;
+                background-color: $dark;
+            }
+            button {
+                position: relative;
+                padding: 12px 14px;
+                border-radius: 12px;
+                border: 3px solid $dark;
+                width: 100%;
+                font-weight: 500;
+                color: $dark;
+                background-color: $purple-light;
+                text-transform: uppercase;
+                font-family: "Helvetica Neue";
+                z-index: 10;
+                transition: all 0.2s ease-in-out;
+                &:hover {
+                    transform: translateY(5px);
+                }
+                &:active {
+                    transform: translateY(10px);
+                }
+            }
+        }
+    }
+    .list {
+        margin-top: 20vh;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        // grid-auto-rows: 10px;
+        gap: 12px;
+        width: 100%;
+        align-items: start;
+        @for $i from 1 through $items {
+            $index: (($i - 1) % 3) + 1;
+            
+            &-item-#{$i} {
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: column;
+                background-color: nth($colors, (($i - 1) % length($colors)) + 1);
+                padding: 12px;
+                border-radius: 12px;
+                border: 3px solid #333;
+                gap: 12px;
+
+                .date {
+                    align-self: flex-end;
+                    padding: 0 12px;
+                    border-radius: 6px;
+                    text-align: end;
+                    font-weight: 400;
+                    font-size: 12px;
+                    background-color: white;
+                }
+            }
+        }
+    }
+}

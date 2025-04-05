@@ -1,0 +1,59 @@
+@use "../../../styles/variables" as *;
+@use "../../../styles/mixins" as *;
+
+.divider{
+    position: relative;
+    z-index: 15;
+    margin: 0;
+    margin-top: 10px;
+    margin-bottom: -15px;
+    height: 45vh;
+    background-color: transparent;
+    width: 100vw;
+    transform: rotate(180deg);
+    svg{
+        position: absolute;
+        left: -10px;
+        right: 0;
+    }
+}
+
+.whome{
+    position: relative;
+    width: 100vw;
+    padding: 40vh 10vw;
+    background-color: var(--green);
+    z-index: 15;
+    &-title{
+        position: relative;
+        h1{
+            font-size: 7rem;
+            line-height: 7.5rem;
+        }
+        & .symbol{
+            display: flex;
+            gap: 6px;
+            & h1:last-child{
+                transform: rotate(30deg);
+            }
+        }
+        .thabys{
+            position: absolute;
+            top: 80px;
+            left: -50px;
+            z-index: 10;
+            transform: rotate(-10deg);
+            filter:drop-shadow(0 4px 3px $dark)
+        }
+    }
+    &-description{
+        display: flex;
+        justify-content: center;
+        p{
+            width: 25vw;
+            text-transform: uppercase;
+            text-align: justify;
+            font-family: "Helvetica Neue";
+        }
+    }
+}
