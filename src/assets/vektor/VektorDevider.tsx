@@ -9,8 +9,6 @@ interface VectorProps {
 }
 
 const VektorDevider = ({
-    width,
-    height,
     fill,
     stroke,
     strokeWidth,

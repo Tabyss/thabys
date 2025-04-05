@@ -38,12 +38,12 @@ const DailyFunNews = () => {
             const itemWidth = 250;
             const numColumns = Math.max(1, Math.floor(containerWidth / itemWidth));
             
-            let columnHeights = new Array(numColumns).fill(0); 
+            const columnHeights = new Array(numColumns).fill(0); 
             
             const items = Array.from(listRef.current.children) as HTMLDivElement[];
             
             items.forEach((item) => {
-                let minColumnIndex = columnHeights.indexOf(Math.min(...columnHeights));
+                const minColumnIndex = columnHeights.indexOf(Math.min(...columnHeights));
 
                 console.log(minColumnIndex)
 

@@ -11,6 +11,9 @@ const oswald = Oswald({
 export const metadata: Metadata = {
     title: "Thabys",
     description: "Website All about me",
+    icons: {
+        icon: "/favicon.gif",
+    },
 };
 
 export default function RootLayout({

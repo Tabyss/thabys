@@ -4,6 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Assets2 from "@/assets/vektor/Vector-hero-2.svg";
 import Assets4 from "@/assets/vektor/Vector-hero-4.svg";
 import "./Hero.scss";
+import Image from "next/image";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -29,8 +30,26 @@ const Hero = () => {
     return (
         <div ref={heroRef} className="hero">
             <div className="hero-frame">
-                <img src={Assets4.src} className="object3" alt="frame" />
-                <img src={Assets4.src} className="object3" alt="frame" />
+                <div style={{ position: 'relative', width: '100%', height: 'auto' }}>
+
+                    <Image
+                        src={Assets4.src}
+                        alt="frame"
+                        className="object3"
+                        fill
+                        style={{ objectFit: 'contain' }}
+                    />
+                </div>
+                <div style={{ position: 'relative', width: '100%', height: 'auto' }}>
+
+                    <Image
+                        src={Assets4.src}
+                        alt="frame"
+                        className="object3"
+                        fill
+                        style={{ objectFit: 'contain' }}
+                    />
+                </div>
             </div>
             <div className="hero-head">
                 <h1>THABYS</h1>
@@ -40,8 +59,8 @@ const Hero = () => {
                 <p>Code, design, and innovation—where everything comes together.</p>
             </div>
             <div className="frame2">
-                <img src={Assets2.src} className="object3" alt="frame" width={250} height={50} />
-                <img src={Assets2.src} className="object4" alt="frame" width={250} height={50} />
+                <Image src={Assets2.src} className="object3" alt="frame" width={250} height={50} />
+                <Image src={Assets2.src} className="object4" alt="frame" width={250} height={50} />
             </div>
         </div>
     );

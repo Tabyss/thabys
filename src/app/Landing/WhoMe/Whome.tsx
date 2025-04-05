@@ -72,8 +72,8 @@ const Whome = () => {
                 </div>
                 <div className="whome-description">
                     <p>
-                        That's my name in this digital universe. As a frontend developer and UI/UX designer, I don’t just make
-                        things look pretty—I make them work beautifully.
+                        {`That's my name in this digital universe. As a frontend developer and UI/UX designer, I don’t just make
+                        things look pretty—I make them work beautifully.`}
                     </p>
                 </div>
             </div>

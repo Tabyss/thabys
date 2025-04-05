@@ -1,3 +1,5 @@
+@use "sass:list";
+
 $colors: (
     $yellow,
     $red,
@@ -12,19 +14,21 @@ $colors: (
 $items: 100;
 
 .generator {
-    display: flex;
-    gap: 12px;
     width: 100vw;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
     min-height: 100vh;
     padding: 20vh 20px;
-    flex-direction: column;
     align-items: center;
     background-color: $yellow;
+
     h1 {
-        @include font-size(7rem, 5rem, 2.5rem);
         color: $dark;
+        @include font-size(7rem, 5rem, 2.5rem);
     }
+
     &-btn {
         display: flex;
         gap: 12px;
@@ -32,13 +36,13 @@ $items: 100;
         .button {
             position: relative;
             &.text {
-                button{
+                button {
                     padding: 12px 16px;
                     width: 200px;
                 }
             }
             &.icon {
-                button{
+                button {
                     width: 100%;
                     background-color: $pink-light;
                     font-size: 24px;
@@ -102,7 +106,7 @@ $items: 100;
             &-text-arti {
                 margin: 24px 0 12px;
                 height: 80px;
-                &-spell{
+                &-spell {
                     display: flex;
                     gap: 6px;
                 }
@@ -192,9 +196,9 @@ $items: 100;
                 box-sizing: border-box;
                 display: flex;
                 flex-direction: column;
-                background-color: nth(
+                background-color: list.nth(
                     $colors,
-                    (($i - 1) % length($colors)) + 1
+                    (($i - 1) % list.length($colors)) + 1
                 );
                 padding: 12px;
                 border-radius: 12px;
