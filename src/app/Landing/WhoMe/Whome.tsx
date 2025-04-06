@@ -23,36 +23,36 @@ const Whome = () => {
     const titleRef = useRef<HTMLDivElement | null>(null);
     const dividerRef = useRef<HTMLDivElement | null>(null);
 
-    useGSAP(() => {
-        if (!dividerRef.current || !whomeRef.current) return;
+    // useGSAP(() => {
+    //     if (!dividerRef.current || !whomeRef.current) return;
 
-        ScrollTrigger.create({
-            trigger: whomeRef.current,
-            start: 'top bottom+=10px', // Triggers when `.divider` is at the center of viewport
-            once: true, // Ensures it only runs once
-            onEnter: () => {
-                disableScroll();
-                gsap.to(window, {
-                    duration: 2,
-                    scrollTo: { y: titleRef.current as Element }, // Scrolls to `.whome`
-                    ease: 'power2.inOut',
-                    onComplete: enableScroll,
-                });
-            },
-        });
+    //     ScrollTrigger.create({
+    //         trigger: whomeRef.current,
+    //         start: 'top bottom+=10px', // Triggers when `.divider` is at the center of viewport
+    //         once: true, // Ensures it only runs once
+    //         onEnter: () => {
+    //             disableScroll();
+    //             gsap.to(window, {
+    //                 duration: 2,
+    //                 scrollTo: { y: titleRef.current as Element }, // Scrolls to `.whome`
+    //                 ease: 'power2.inOut',
+    //                 onComplete: enableScroll,
+    //             });
+    //         },
+    //     });
 
-        gsap.to('.whome', {
-            y: '-100vh', // Moves the entire section up
-            ease: 'power2.out',
-            duration: 1.5,
-            scrollTrigger: {
-                trigger: whomeRef.current,
-                start: 'top bottom',
-                end: '+=100%', // Animation effect over scroll range
-                scrub: true, // Smooth scrolling effect
-            },
-        });
-    }, []);
+    //     gsap.to('.whome', {
+    //         y: '-100vh', // Moves the entire section up
+    //         ease: 'power2.out',
+    //         duration: 1.5,
+    //         scrollTrigger: {
+    //             trigger: whomeRef.current,
+    //             start: 'top bottom',
+    //             end: '+=100%', // Animation effect over scroll range
+    //             scrub: true, // Smooth scrolling effect
+    //         },
+    //     });
+    // }, []);
 
     return (
         <div ref={whomeRef} style={{ position: 'relative', zIndex: '15' }}>

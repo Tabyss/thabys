@@ -11,27 +11,26 @@ gsap.registerPlugin(ScrollTrigger);
 const Hero = () => {
     const heroRef = useRef<HTMLDivElement | null>(null);
 
-    useEffect(() => {
-        if (!heroRef.current) return;
+        // useEffect(() => {
+        //     if (!heroRef.current) return;
 
-        gsap.to(heroRef.current, {
-            ease: "power2.out",
-            scrollTrigger: {
-                trigger: heroRef.current,
-                start: "top top",
-                end: "+=300", // Adjust based on how long you want it to stay
-                scrub: true,
-                pin: true, // Keeps it sticky
-                pinSpacing: false, // Prevents unnecessary extra space
-            },
-        });
-    }, []);
+        //     gsap.to(heroRef.current, {
+        //         ease: "power2.out",
+        //         scrollTrigger: {
+        //             trigger: heroRef.current,
+        //             start: "top top",
+        //             end: "+=300", // Adjust based on how long you want it to stay
+        //             scrub: true,
+        //             pin: true, // Keeps it sticky
+        //             pinSpacing: false, // Prevents unnecessary extra space
+        //         },
+        //     });
+        // }, []);
 
     return (
         <div ref={heroRef} className="hero">
             <div className="hero-frame">
                 <div style={{ position: 'relative', width: '100%', height: 'auto' }}>
-
                     <Image
                         src={Assets4.src}
                         alt="frame"

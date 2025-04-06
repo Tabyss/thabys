@@ -4,7 +4,7 @@ import { db } from "@/firebaseConfig"; // Make sure your Firebase config is corr
 import { collection, getDocs } from "firebase/firestore";
 
 // ✅ Initialize Gemini
-const genAI = new GoogleGenerativeAI("AIzaSyDuhPZvDAxrrSNrsEfkRenWWJj8kaNtJuE");
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
 export async function POST() {
     try {
@@ -51,7 +51,17 @@ Focus:
 `;
 
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
-        const result = await model.generateContent(prompt);
+        function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+          return Promise.race([
+            promise,
+            new Promise<never>((_, reject) =>
+              setTimeout(() => reject(new Error("Gemini API call timed out")), ms)
+            )
+          ]);
+        }
+        
+        // Use it here (timeout: 9 seconds)
+        const result = await withTimeout(model.generateContent(prompt), 9000);
         const responseText =
             result.response.candidates?.[0]?.content?.parts?.[0]?.text;
 
