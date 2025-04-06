@@ -6,7 +6,7 @@ import VectorNav from "@/assets/vektor/VectorNav";
 import Link from "next/link";
 
 const Navbar = () => {
-    const [active, useActive] = useState(false)
+    const [active, setActive] = useState(false)
 
     return (
         <div className="navbar">
@@ -14,7 +14,7 @@ const Navbar = () => {
                 <div className="vector-wrapper main">
                     <VectorNav fill={'var(--dark)'} />
                 </div>
-                <div className="navbar-trigger-button" onClick={()=> useActive(!active)}>
+                <div className="navbar-trigger-button" onClick={()=> setActive(!active)}>
                     <div className="vector-wrapper button">
                         <VectorNav fill={'var(--green)'} stroke={'var(--dark)'} strokeWidth={3} />
                     </div>

@@ -1,6 +1,6 @@
 import VektorDevider from '@/assets/vektor/VektorDevider';
 import './Whome.scss';
-import { useGSAP } from '@gsap/react';
+// import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { useRef } from 'react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -10,13 +10,13 @@ import Image from 'next/image';
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
-const disableScroll = () => {
-    document.body.style.overflow = 'hidden';
-};
+// const disableScroll = () => {
+//     document.body.style.overflow = 'hidden';
+// };
 
-const enableScroll = () => {
-    document.body.style.overflow = 'auto';
-};
+// const enableScroll = () => {
+//     document.body.style.overflow = 'auto';
+// };
 
 const Whome = () => {
     const whomeRef = useRef<HTMLDivElement | null>(null);
