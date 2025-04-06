@@ -60,6 +60,9 @@ export default function Generate() {
         try {
             const wordCollection = collection(db, "Word");
             const snapshot = await getDocs(wordCollection);
+            console.log(snapshot.docs.map((doc) =>
+                doc.data().word?.toLowerCase()
+            ))
             const savedWords: WordData[] = snapshot.docs.map((doc) => {
                 const data = doc.data();
                 return {

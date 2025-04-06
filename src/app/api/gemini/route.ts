@@ -12,56 +12,50 @@ export async function POST() {
         const existingWords = wordSnap.docs.map((doc) =>
             doc.data().word?.toLowerCase()
         );
-        const excludeList = existingWords.join(", ");
+        const maxExclude = 100;
+        const excludeList = existingWords.slice(-maxExclude).join(", ");
 
-        const prompt = `Generate 5 academic English words suitable for an intermediate English learner that are NOT in the following list: ${excludeList}. 
-        Return them in a JSON array with this structure:
+          const prompt = `Generate 5 formal academic English words suitable for intermediate IELTS learners that are NOT in this list: ${excludeList}.
 
-[
-  {
-    "word": "Significant",
-    "arti": "Penting; memiliki dampak atau arti yang besar.",
-    "spelling": "sig-NIF-uh-kunt",
-    "type": "Adjective",
-    "grammar": {
-      "concept": "Adjective usage in academic writing",
-      "explanation": "Often used before nouns to emphasize importance, e.g., 'a significant difference'."
-    },
-    "example": {
-      "en": "There was a significant improvement in student performance.",
-      "id": "Terdapat peningkatan yang signifikan dalam performa siswa."
+  Return ONLY a JSON array like:
+
+  [
+    {
+      "word": "Significant",
+      "arti": "Penting; memiliki dampak atau arti yang besar.",
+      "spelling": "sig-NIF-uh-kunt",
+      "type": "Adjective",
+      "grammar": {
+        "concept": "Adjective usage in academic writing",
+        "explanation": "Often used before nouns to emphasize importance, e.g., 'a significant difference'."
+      },
+      "example": {
+        "en": "There was a significant improvement in student performance.",
+        "id": "Terdapat peningkatan yang signifikan dalam performa siswa."
+      }
     }
-  }
-]
+  ]
 
-Instructions:
-- Generate exactly 5 formal English words used in academic writing.
-- For each word, include:
-  - "word": the English word.
-  - "arti": its meaning in Bahasa Indonesia.
-  - "spelling": phonetic spelling.
-  - "type": part of speech (noun, verb, etc.).
-  - "grammar": explanation of how this word is typically used in grammar (e.g., collocations, passive, formal tone).
-  - "example": one full academic-style sentence in English + Indonesian translation.
-
-Focus:
-- Prioritize vocabulary and grammar patterns helpful for writing essays, papers, or formal discussions.
-- Use clear and accurate academic contexts.
-- Return only the JSON array. Do not include extra explanation.
-`;
+  Requirements:
+  - Include exactly 5 academic English words.
+  - Each word must include: meaning in Bahasa, phonetic spelling, part of speech, grammar usage, and one example with ID translation.
+  - Focus on words helpful for essays, papers, and formal discussions.
+  - Output JSON only. No explanation.`;
 
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
         function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
-          return Promise.race([
-            promise,
-            new Promise<never>((_, reject) =>
-              setTimeout(() => reject(new Error("Gemini API call timed out")), ms)
-            )
-          ]);
+            return Promise.race([
+                promise,
+                new Promise<never>((_, reject) =>
+                    setTimeout(
+                        () => reject(new Error("Gemini API call timed out")),
+                        ms
+                    )
+                ),
+            ]);
         }
-        
-        // Use it here (timeout: 9 seconds)
-        const result = await withTimeout(model.generateContent(prompt), 9000);
+
+        const result = await withTimeout(model.generateContent(prompt), 15000);
         const responseText =
             result.response.candidates?.[0]?.content?.parts?.[0]?.text;
 
