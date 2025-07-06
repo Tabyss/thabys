@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import '../styles/global.scss'
 import { Bebas_Neue } from "next/font/google";
-import Navbar from "@/components/Navbar/Navbar";
 
 const bebas = Bebas_Neue({
     weight: "400",
