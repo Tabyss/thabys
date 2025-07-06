@@ -7,6 +7,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import IMG from '@/assets/img/Thabys-outline.png'
 import Image from 'next/image';
+import VektorButton2 from '@/assets/vektor/VektorButton2';
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
@@ -63,7 +64,7 @@ const Whome = () => {
                 <div className="whome-title" ref={titleRef}>
                     <h1>WHO IS</h1>
                     <h1>THABYS</h1>
-                    <Image className='thabys' src={IMG} alt="Thabys" width={450}/>
+                    <Image className='thabys' src={IMG} alt="Thabys" width={450} />
                     <div className="symbol">
                         <h1>?</h1>
                         <h1>?</h1>
@@ -75,6 +76,23 @@ const Whome = () => {
                         {`That's my name in this digital universe. As a frontend developer and UI/UX designer, I don’t just make
                         things look pretty—I make them work beautifully.`}
                     </p>
+                </div>
+                <div className="whome-photo">
+                    <div className="whome-photo-shadow"></div>
+                    <div className="whome-photo-card">
+                        <div className="content">
+
+                        </div>
+                    </div>
+                </div>
+                <div className="whome-resume">
+                    <div className="whome-resume-shadow">
+                        <VektorButton2 width='200px' fill={'var(--dark)'} />
+                    </div>
+                    <div className="whome-resume-button">
+                            <VektorButton2 width='200px' fill={'var(--pink-dark)'} strokeWidth={3} stroke={'var(--dark)'} />
+                        <h1>RESUME</h1>
+                    </div>
                 </div>
             </div>
         </div>

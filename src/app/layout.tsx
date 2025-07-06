@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import '../styles/global.scss'
-import { Oswald } from "next/font/google";
+import { Bebas_Neue } from "next/font/google";
 import Navbar from "@/components/Navbar/Navbar";
 
-const oswald = Oswald({
-    variable: '--font-oswald',
+const bebas = Bebas_Neue({
+    weight: "400",
+    style: 'normal',
+    variable: '--font-bebas',
     subsets: ["latin"]
 });
 
@@ -23,8 +25,8 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={`${oswald.className}`}>
-                <Navbar />
+            <body className={`${bebas.className}`}>
+                {/* <Navbar /> */}
                 {children}
             </body>
         </html>

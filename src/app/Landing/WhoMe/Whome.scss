@@ -1,7 +1,7 @@
 @use "../../../styles/variables" as *;
 @use "../../../styles/mixins" as *;
 
-.divider{
+.divider {
     position: relative;
     z-index: 15;
     margin: 0;
@@ -9,51 +9,116 @@
     margin-bottom: -15px;
     height: 45vh;
     background-color: transparent;
-    width: 100vw;
+    // width: 100vw;
     transform: rotate(180deg);
-    svg{
+    svg {
         position: absolute;
         left: -10px;
         right: 0;
     }
 }
 
-.whome{
+.whome {
     position: relative;
     width: 100vw;
-    padding: 40vh 10vw;
+    height: 150vh;
+    padding: 0 10vw;
     background-color: var(--green);
     z-index: 15;
-    &-title{
+    &-title {
         position: relative;
-        h1{
+        h1 {
             font-size: 7rem;
             line-height: 7.5rem;
         }
-        & .symbol{
+        & .symbol {
             display: flex;
             gap: 6px;
-            & h1:last-child{
+            & h1:last-child {
                 transform: rotate(30deg);
             }
         }
-        .thabys{
+        .thabys {
             position: absolute;
             top: 80px;
             left: -50px;
             z-index: 10;
             transform: rotate(-10deg);
-            filter:drop-shadow(0 4px 3px $dark)
+            filter: drop-shadow(0 4px 3px $dark);
         }
     }
-    &-description{
+    &-description {
         display: flex;
         justify-content: center;
-        p{
+        p {
             width: 25vw;
             text-transform: uppercase;
             text-align: justify;
             font-family: "Helvetica Neue";
         }
+    }
+    &-photo {
+        position: absolute;
+        right: 8vw;
+        top: 20vh;
+        transform: rotate(15deg);
+        &-shadow {
+            position: absolute;
+            top: 20px;
+            right: -20px;
+            width: 400px;
+            height: 500px;
+            background-color: var(--dark);
+            border-radius: 24px;
+            z-index: -1;
+        }
+        &-card {
+            width: 400px;
+            height: 500px;
+            background-color: white;
+            border: 3px solid var(--dark);
+            border-radius: 24px;
+            padding: 20px;
+            .content {
+                width: 100%;
+                height: 80%;
+                background-color: #d9d9d9;
+            }
+        }
+    }
+    &-resume {
+        position: relative;
+        width: max-content;
+        top: 100px;
+        left: 0;
+        &-shadow {
+            position: absolute;
+            top: 12px;
+            width: 100%;
+        }
+        &-button {
+            position: absolute;
+            width: 100%;
+            transition: all 0.2s ease-in-out;
+            &:hover {
+                margin-top: 6px;
+            }
+            &:active {
+                margin-top: 12px;
+            }
+            h1 {
+                position: absolute;
+                left: 10px;
+                top: 42px;
+                font-size: 3rem;
+                line-height: 3rem;
+            }
+        }
+    }
+}
+
+@media (max-width: $breakpoint-mobile) {
+    .divider{
+        height: 20px;
     }
 }

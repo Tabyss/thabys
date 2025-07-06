@@ -26,7 +26,7 @@ $items: 100;
 
     h1 {
         color: $dark;
-        @include font-size(7rem, 5rem, 2.5rem);
+        @include font-size(7rem, 5rem, 2.5rem, 1.25);
     }
 
     &-btn {

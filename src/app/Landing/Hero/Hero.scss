@@ -27,7 +27,7 @@
 
         & h1 {
             text-align: center;
-            @include font-size(7rem, 5rem, 2.5rem);
+            @include font-size(7rem, 6.5rem, 6rem);
 
             &:first-child {
                 z-index: 2;

@@ -20,7 +20,7 @@ $items : 100;
     align-items: center;
     background-color: $blue-light;
     h1 {
-        @include font-size(7rem, 5rem, 2.5rem);
+        @include font-size(7rem, 5rem, 2.5rem, 1.25);
         color: $dark;
     }
     .input {
