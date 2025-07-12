@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import "./Navbar.scss";
 import VectorNav from "@/assets/vektor/VectorNav";
 import VektorDot from "@/assets/vektor/VektorDot";
-import Link from "next/link";
 import { AnimatePresence, motion, useAnimation } from "framer-motion";
 import TransitionLink from "../PageTransition/TransitionLink";
 import { usePathname } from "next/navigation";

@@ -27,6 +27,7 @@ export function PageTransitionProvider({ children }: { children: React.ReactNode
             setIsActive(false);
             setTargetUrl(null);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pathname]);
 
     return (
