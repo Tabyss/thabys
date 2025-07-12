@@ -7,7 +7,7 @@
     "build": "npm run clean && next build",
     "start": "next start",
     "lint": "next lint",
-    "clean": "rmdir /s /q .next && next build"
+    "clean": "rmdir /s /q .next"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.0",
