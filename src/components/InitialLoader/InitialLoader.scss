@@ -1,0 +1,29 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    background: #000; // or your brand gradient
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .logo {
+        display: flex;
+        gap: 6px;
+        @media (max-width: 768px) {
+            svg {
+                width: 40px !important;
+                height: 40px !important;
+            }
+        }
+    }
+
+    .loadingText {
+        @include font-size(24px, 20px, 16px, 1.3);
+        color: white;
+        margin-bottom: 20px;
+    }
+}

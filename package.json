@@ -3,7 +3,7 @@
   "version": "2.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev --turbopack -p 4000",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -15,6 +15,7 @@
     "@svgr/webpack": "^8.1.0",
     "dotenv": "^16.4.7",
     "firebase": "^11.4.0",
+    "framer-motion": "^12.23.2",
     "gsap": "^3.12.7",
     "next": "15.2.0",
     "react": "^19.0.0",

@@ -1,5 +1,6 @@
 .navbar {
     display: flex;
+    position: relative;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -7,72 +8,142 @@
     width: 100vw;
     z-index: 1000;
     color: $pink-light;
+    .navbar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: var(--dark, rgba(0, 0, 0, 0.8));
+        z-index: 9;
+    }
     &-trigger {
         position: relative;
-        top: 20px;
+        top: 0;
         left: 0;
-        .vector-wrapper {
-            position: relative;
-            &.main {
-                position: absolute;
-                top: 12px;
-                width: 400px;
-            }
-            &.button {
-                width: 400px;
-            }
-        }
         &-button {
             position: relative;
             z-index: 10;
             transition: all 0.2s ease-in-out;
-            &:hover {
-                margin-top: 6px;
+            svg {
+                color: var(--dark);
             }
-            &:active {
-                margin-top: 12px;
+            &:hover {
+                svg {
+                    fill: var(--purple-dark2);
+                }
             }
             .line {
                 display: flex;
                 position: absolute;
+                flex-direction: column;
                 justify-content: center;
                 align-items: center;
-                flex-direction: column;
                 top: 0;
                 width: 100%;
                 height: 100%;
-                gap: 18px;
+                gap: 12px;
+                img {
+                    color: white;
+                }
                 > .line1,
                 > .line2 {
                     width: 80px;
                     height: 3px;
-                    background-color: $dark;
+                    background-color: white;
                 }
             }
         }
     }
     &-container {
-        width: 400px;
-        height: 0px;
+        width: 90vw;
+        height: 300px;
         position: absolute;
-        display: none;
-        top: 100px;
+        // display: none;
+        top: 60px;
         gap: 6px;
         flex-direction: column;
         align-items: center;
-        background-color: $green;
-        border: 3px solid $dark;
-        border-radius: 24px;
-        &.active{
-            transition: all ease-in-out .5s;
-            height: max-content;
-            display: flex;
-            padding: 24px;
-        }
-        a{
-            text-decoration: none;
-            font-size: 20px;
-            color: $dark;
+        background-color: var(--dark);
+        border: 2px solid var(--dark);
+        border-radius: 12px;
+        z-index: 10;
+
+        &-contents {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin: 12px;
+            height: calc(100% - 12px * 2);
+            overflow: auto;
+
+            @media (max-width: $breakpoint-tablet) {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            @media (max-width: $breakpoint-mobile) {
+                grid-template-columns: 1fr;
+            }
+
+            scrollbar-width: thin; // Firefox: make scrollbar thin
+            scrollbar-color: var(--purple-dark) transparent; // Firefox colors
+
+            &::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            &::-webkit-scrollbar-track {
+                background: transparent; // track background
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background-color: var(--purple-dark); // thumb color
+            }
+
+            &::-webkit-scrollbar-thumb:hover {
+                background-color: var(--purple-dark2);
+            }
+
+            &::-webkit-scrollbar-button {
+                display: none;
+                height: 0;
+                width: 0;
+            }
+
+            .divider {
+                position: relative;
+                width: 100%;
+                height: 1px;
+                background-color: white;
+                margin: 12px 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                svg {
+                    position: absolute;
+                    top: -7px;
+                }
+            }
+            .content {
+                display: flex;
+                flex-direction: column;
+                &-item {
+                    &.active {
+                        text-decoration: none;
+                        font-size: 28px;
+                        color: var(--purple-dark2);
+                    }
+                }
+                a {
+                    text-decoration: none;
+                    font-size: 28px;
+                    color: white;
+                    &:hover {
+                        color: var(--purple-dark);
+                    }
+                }
+            }
         }
     }
 }
@@ -80,12 +151,44 @@
 @media (max-width: $breakpoint-mobile) {
     .navbar {
         &-trigger {
+            &-button {
+                svg {
+                    width: 200px;
+                    height: 30px;
+                }
+                .line {
+                    gap: 6px;
+                    img {
+                        height: 10px;
+                    }
+                    > .line1,
+                    > .line2 {
+                        width: 60px;
+                        height: 2px;
+                        background-color: white;
+                    }
+                }
+            }
             .vector-wrapper {
                 &.main {
                     width: 80vw;
                 }
                 &.button {
                     width: 80vw;
+                }
+            }
+        }
+        &-container {
+            &-contents {
+                .content {
+                    &-item {
+                        &.active {
+                            text-align: center;
+                        }
+                    }
+                    a {
+                        text-align: center;
+                    }
                 }
             }
         }

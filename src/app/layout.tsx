@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
-import '../styles/global.scss'
+import '../styles/global.scss';
 import { Bebas_Neue } from "next/font/google";
+import InitialLoader from "@/components/InitialLoader/InitialLoader";
+import { PageTransitionProvider } from "@/components/PageTransitionContext";
+import Navbar from "@/components/Navbar/Navbar";
 
 const bebas = Bebas_Neue({
     weight: "400",
@@ -25,8 +28,12 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={`${bebas.className}`}>
-                {/* <Navbar /> */}
-                {children}
+                <PageTransitionProvider>
+                    <InitialLoader>
+                        <Navbar/>
+                        {children}
+                    </InitialLoader>
+                </PageTransitionProvider>
             </body>
         </html>
     );

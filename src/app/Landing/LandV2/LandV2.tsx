@@ -12,7 +12,7 @@ import Image from 'next/image'
 import React from 'react'
 import './LandV2.scss'
 import VektorButton2 from '@/assets/vektor/VektorButton2'
-import Link from 'next/link'
+import TransitionLink from '@/components/PageTransition/TransitionLink'
 
 const LandV2 = () => {
     return (
@@ -39,15 +39,15 @@ const LandV2 = () => {
                         </div>
                     </div>
                     <div className="land-v2-content-action-nav">
-                        <Link href='/'>
+                        <TransitionLink href='/'>
                             Home
-                        </Link>
-                        <Link href='/daily-fun'>
+                        </TransitionLink>
+                        <TransitionLink href='/daily-fun'>
                             Diary
-                        </Link>
-                        <Link href='/word-generator'>
+                        </TransitionLink>
+                        <TransitionLink href='/word-generator'>
                             Generator
-                        </Link>
+                        </TransitionLink>
                     </div>
                 </div>
                 <div className="land-v2-content-porto">
