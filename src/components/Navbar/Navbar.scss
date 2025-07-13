@@ -51,6 +51,15 @@
                     width: 80px;
                     height: 3px;
                     background-color: white;
+                    transition: transform 0.3s ease, opacity 0.3s ease;
+                }
+                &.active {
+                    .line1 {
+                        transform: rotate(10deg) translate(0, 5px);
+                    }
+                    .line2 {
+                        transform: rotate(-10deg) translate(0, -10px);
+                    }
                 }
             }
         }
@@ -166,6 +175,14 @@
                         width: 60px;
                         height: 2px;
                         background-color: white;
+                    }
+                    &.active {
+                        .line1 {
+                            transform: rotate(10deg) translate(0, 4px);
+                        }
+                        .line2 {
+                            transform: rotate(-10deg) translate(0, -4px);
+                        }
                     }
                 }
             }

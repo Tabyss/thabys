@@ -50,7 +50,7 @@ const Navbar = () => {
             <div className="navbar-trigger">
                 <div className="navbar-trigger-button" onClick={handleToggle}>
                     <VectorNav fill={'var(--dark)'} width={300} height={50} />
-                    <div className="line">
+                    <div className={`line ${active ? "active" : ""}`}>
                         <div className="line1"></div>
                         <div className="line2"></div>
                     </div>
