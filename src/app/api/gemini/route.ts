@@ -16,7 +16,7 @@ import {
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
 const MAX_RETRIES = 5;
-const INITIAL_RETRY_DELAY_MS = 20000; // Penting: Lebih besar dari 18s yang disarankan
+const INITIAL_RETRY_DELAY_MS = 20000;
 const API_TIMEOUT_MS = 30000;
 
 function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
@@ -38,18 +38,32 @@ async function callGeminiWithRetry(
             model.generateContent(prompt),
             API_TIMEOUT_MS
         );
+
         const responseText =
             result.response.candidates?.[0]?.content?.parts?.[0]?.text;
 
         if (!responseText) {
             throw new Error("No valid response text from Gemini API");
         }
+
         return responseText;
-    } catch (error: any) {
-        const isQuotaError =
-            error.status === 429 ||
-            (error.response && error.response.status === 429);
-        const isTimeoutError = error.message === "Gemini API call timed out";
+    } catch (error: unknown) {
+        let statusCode: number | undefined;
+        let message: string | undefined;
+
+        if (typeof error === "object" && error !== null) {
+            const err = error as {
+                status?: number;
+                message?: string;
+                response?: { status: number };
+            };
+
+            statusCode = err.status ?? err.response?.status;
+            message = err.message;
+        }
+
+        const isQuotaError = statusCode === 429;
+        const isTimeoutError = message === "Gemini API call timed out";
 
         if ((isQuotaError || isTimeoutError) && retries < MAX_RETRIES) {
             const delay = INITIAL_RETRY_DELAY_MS * Math.pow(2, retries);
@@ -61,11 +75,8 @@ async function callGeminiWithRetry(
             await new Promise((resolve) => setTimeout(resolve, delay));
             return callGeminiWithRetry(prompt, retries + 1);
         } else {
-            console.error(
-                "Final Gemini API Error after retries:",
-                error.message
-            );
-            throw error;
+            console.error("Final Gemini API Error after retries:", message);
+            throw new Error(message ?? "Unknown error occurred");
         }
     }
 }
@@ -74,45 +85,38 @@ export async function POST() {
     try {
         const wordCollection = collection(db, "Word");
 
-        // --- STRATEGI CACHING BARU: Coba ambil dari Firestore DULU ---
-        const CACHE_MIN_WORDS = 5; // Jumlah kata minimum yang harus ada di cache Firestore
+        const CACHE_MIN_WORDS = 5;
 
-        // Ambil 5 kata terbaru dari Firestore (atau lebih, tergantung kebutuhan)
         const cachedWordsQuery = query(
             wordCollection,
             orderBy("createdAt", "desc"),
             limit(CACHE_MIN_WORDS)
         );
         const cachedSnapshot = await getDocs(cachedWordsQuery);
-        const fetchedWordsFromCache = cachedSnapshot.docs.map((doc) =>
-            doc.data()
-        );
+        const fetchedWordsFromCache = cachedSnapshot.docs.map((doc) => doc.data());
 
-        // Jika kita memiliki cukup kata di Firestore, KEMBALIKAN dari sana!
         if (fetchedWordsFromCache.length >= CACHE_MIN_WORDS) {
             console.log(
                 `[Cache Hit]: Returning ${CACHE_MIN_WORDS} words from Firestore.`
             );
-            // Filter data agar sesuai dengan WordData (jika perlu penyesuaian)
             const wordsToReturn = fetchedWordsFromCache.map((data) => ({
                 word: data.word,
                 arti: data.arti,
                 type: data.type,
                 spelling: data.spelling,
-                grammar: data.grammar || {}, // Pastikan grammar ada
+                grammar: data.grammar || {},
                 example: data.example || { en: "", id: "" },
             }));
             return NextResponse.json(wordsToReturn);
         }
-        // --- AKHIR STRATEGI CACHING BARU ---
 
-        // Jika tidak ada cukup di cache Firestore, baru panggil Gemini
         console.log("[Cache Miss]: Fetching new words from Gemini API.");
+
         const wordSnap = await getDocs(wordCollection);
         const existingWords = wordSnap.docs.map((doc) =>
             doc.data().word?.toLowerCase()
         );
-        const maxExclude = 50; // Pertahankan ini untuk prompt yang lebih pendek
+        const maxExclude = 50;
         const excludeList = existingWords.slice(-maxExclude).join(", ");
 
         const prompt = `Provide 5 formal academic English words for intermediate IELTS learners, excluding: ${excludeList}.
@@ -122,16 +126,12 @@ Format as JSON array of objects: {word, arti(Bahasa), spelling(phonetic), type(p
 
         const jsonMatch = responseText.match(/\[\s*{[\s\S]*}\s*\]/);
         if (!jsonMatch) {
-            console.error(
-                "Failed to extract JSON from response:",
-                responseText
-            );
+            console.error("Failed to extract JSON from response:", responseText);
             throw new Error("Failed to extract JSON from Gemini response");
         }
 
         const words = JSON.parse(jsonMatch[0]);
 
-        // Simpan kata-kata baru ke Firestore
         for (const word of words) {
             await addDoc(wordCollection, {
                 word: word.word,
@@ -142,31 +142,39 @@ Format as JSON array of objects: {word, arti(Bahasa), spelling(phonetic), type(p
                     id: word.example.id,
                     en: word.example.en,
                 },
-                grammar: word.grammar || {}, // Pastikan grammar disimpan
+                grammar: word.grammar || {},
                 createdAt: Timestamp.now(),
             });
         }
-        console.log("New words generated by Gemini and saved to Firestore.");
 
+        console.log("New words generated by Gemini and saved to Firestore.");
         return NextResponse.json(words);
-    } catch (error: any) {
-        console.error("Error in /api/gemini POST handler:", error.message);
+    } catch (error: unknown) {
         let status = 500;
-        if (error.message.includes("timed out")) {
-            status = 504;
-        } else if (
-            error.status === 429 ||
-            (error.response && error.response.status === 429)
-        ) {
-            status = 429;
+        let message = "Failed to generate words due to an unknown error.";
+
+        if (typeof error === "object" && error !== null) {
+            const err = error as {
+                message?: string;
+                status?: number;
+                response?: { status: number };
+            };
+
+            if (err.message?.includes("timed out")) {
+                status = 504;
+            } else if (
+                err.status === 429 ||
+                err.response?.status === 429
+            ) {
+                status = 429;
+            }
+
+            if (err.message) {
+                message = err.message;
+            }
         }
-        return NextResponse.json(
-            {
-                error:
-                    error.message ||
-                    "Failed to generate words due to an unknown error.",
-            },
-            { status: status }
-        );
+
+        console.error("Error in /api/gemini POST handler:", message);
+        return NextResponse.json({ error: message }, { status });
     }
 }

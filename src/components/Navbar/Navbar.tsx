@@ -6,10 +6,17 @@ import VectorNav from "@/assets/vektor/VectorNav";
 import { AnimatePresence, motion, useAnimation } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/context/auth/AuthProvider";
-import { NavbarItem } from "./components/NavItems";
 import { NAV_ITEMS } from "./NavItems";
 import thabys from "@/assets/img/thabys.png";
 import Image from "next/image";
+import NavbarItem from "./components/NavItems";
+
+export type NavbarItemType = {
+    type: "login" | "divider" | "item";
+    label: string;
+    href?: string;
+    locked?: boolean;
+};
 
 const Navbar = () => {
     const [active, setActive] = useState(false);
@@ -70,9 +77,15 @@ const Navbar = () => {
                                 exit={{ opacity: 0, transition: { duration: 0.1, ease: "easeInOut" } }}
                             >
                                 <div className="content">
-                                    {NAV_ITEMS.map((item, idx) =>
-                                        NavbarItem(item, idx, pathname, authenticated, setActive)
-                                    )}
+                                    {NAV_ITEMS.map((item, idx) => (
+                                        <NavbarItem
+                                            key={idx}
+                                            item={item}
+                                            pathname={pathname}
+                                            authenticated={authenticated}
+                                            setActive={setActive}
+                                        />
+                                    ))}
                                 </div>
                                 <Image className='thabys' src={thabys} alt="thabys" height={180} />
                             </motion.div>

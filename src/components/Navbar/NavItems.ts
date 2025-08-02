@@ -1,4 +1,6 @@
-export const NAV_ITEMS = [
+import { NavbarItemType } from "./components/NavItems";
+
+export const NAV_ITEMS: NavbarItemType[] = [
   { type: "item", href: "/", label: "Home" },
   { type: "login", label: "Login" },
   { type: "divider" },
