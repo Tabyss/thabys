@@ -95,7 +95,7 @@
             }
 
             scrollbar-width: thin; // Firefox: make scrollbar thin
-            scrollbar-color: var(--purple-dark) transparent; // Firefox colors
+            scrollbar-color: var(--purple-dark); // Firefox colors
 
             &::-webkit-scrollbar {
                 width: 8px;
@@ -136,8 +136,10 @@
             }
             .thabys{
                 position: absolute;
-                bottom: 16;
-                right: 16;
+                padding: 16px;
+                bottom: 16px;
+                right: 16px;
+                height: auto;
                 mix-blend-mode: screen;
             }
             .content {
@@ -219,6 +221,7 @@
                 .thabys{
                     width: 100%;
                     height: auto;
+                    right: 0;
                 }
                 .content {
                     &-item {
