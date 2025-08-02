@@ -3,32 +3,20 @@
 import React, { useState } from "react";
 import "./Navbar.scss";
 import VectorNav from "@/assets/vektor/VectorNav";
-import VektorDot from "@/assets/vektor/VektorDot";
 import { AnimatePresence, motion, useAnimation } from "framer-motion";
-import TransitionLink from "../PageTransition/TransitionLink";
 import { usePathname } from "next/navigation";
-
-const NAV_ITEMS = [
-    { type: "item", href: "/", label: "Home" },
-    { type: "divider" },
-    { type: "item", href: "/daily-fun", label: "Diary" },
-    { type: "item", href: "/word-generator", label: "Generator" },
-    { type: "divider" },
-];
-
-
-const Divider = () => (
-    <div className="divider">
-        <VektorDot fill="white" width={15} />
-    </div>
-);
+import { useAuth } from "@/context/auth/AuthProvider";
+import { NavbarItem } from "./components/NavItems";
+import { NAV_ITEMS } from "./NavItems";
+import thabys from "@/assets/img/thabys.png";
+import Image from "next/image";
 
 const Navbar = () => {
     const [active, setActive] = useState(false);
     const pathname = usePathname();
     const controls = useAnimation();
     const fade = useAnimation();
-
+    const { authenticated } = useAuth();
 
     const handleToggle = async () => {
         if (!active) {
@@ -60,7 +48,6 @@ const Navbar = () => {
             <AnimatePresence initial={false}>
                 {active && (
                     <>
-                        {/* Overlay */}
                         <motion.div
                             className="navbar-overlay"
                             initial={{ opacity: 0 }}
@@ -70,7 +57,6 @@ const Navbar = () => {
                             onClick={handleToggle}
                         />
 
-                        {/* Animated container */}
                         <motion.div
                             className="navbar-container"
                             initial={{ height: 0, width: 0 }}
@@ -83,35 +69,12 @@ const Navbar = () => {
                                 animate={fade}
                                 exit={{ opacity: 0, transition: { duration: 0.1, ease: "easeInOut" } }}
                             >
-                                <div className="content" >
-                                    {NAV_ITEMS.map((item, idx) => {
-                                        if (item.type === "divider") {
-                                            return <Divider key={`divider-${idx}`} />;
-                                        }
-                                        if (item.type === "item") {
-                                            const isActive = pathname === item.href;
-                                            return (
-                                                <div
-                                                    key={item.label}
-                                                    className={`content-item ${isActive ? "active" : ""}`}
-                                                    style={{ pointerEvents: isActive ? "none" : "auto" }}
-                                                >
-                                                    {isActive ? (
-                                                        <div>{item.label}</div>
-                                                    ) : (
-                                                        <TransitionLink href={item.href || ''}>
-                                                            <div onClick={() => setActive(false)}>
-                                                                {item.label}
-                                                            </div>
-                                                        </TransitionLink>
-                                                    )}
-                                                </div>
-                                            );
-                                        }
-                                        return null;
-                                    })}
+                                <div className="content">
+                                    {NAV_ITEMS.map((item, idx) =>
+                                        NavbarItem(item, idx, pathname, authenticated, setActive)
+                                    )}
                                 </div>
-
+                                <Image className='thabys' src={thabys} alt="thabys" height={180} />
                             </motion.div>
                         </motion.div>
                     </>
@@ -122,3 +85,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+

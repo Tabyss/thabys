@@ -4,6 +4,7 @@ import { Bebas_Neue } from "next/font/google";
 import InitialLoader from "@/components/InitialLoader/InitialLoader";
 import { PageTransitionProvider } from "@/components/PageTransitionContext";
 import Navbar from "@/components/Navbar/Navbar";
+import { AuthProvider } from "@/context/auth/AuthProvider";
 
 const bebas = Bebas_Neue({
     weight: "400",
@@ -30,8 +31,10 @@ export default function RootLayout({
             <body className={`${bebas.className}`}>
                 <PageTransitionProvider>
                     <InitialLoader>
-                        <Navbar/>
-                        {children}
+                        <AuthProvider>
+                            <Navbar />
+                            {children}
+                        </AuthProvider>
                     </InitialLoader>
                 </PageTransitionProvider>
             </body>

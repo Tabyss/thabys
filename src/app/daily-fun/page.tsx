@@ -4,11 +4,13 @@ import { useEffect, useState, useRef } from "react";
 import { db } from "@/firebaseConfig";
 import { collection, addDoc, getDocs, Timestamp, query, orderBy } from "firebase/firestore";
 import "./style.scss";
+import { useAuth } from "@/context/auth/AuthProvider";
 
 const DailyFunNews = () => {
     const [dailyUpdates, setDailyUpdates] = useState<{ id: string; text: string; datetime: Timestamp }[]>([]);
     const [newText, setNewText] = useState("");
     const listRef = useRef<HTMLDivElement>(null);
+    const { authenticated } = useAuth()
 
     useEffect(() => {
         const fetchData = async () => {
@@ -37,18 +39,18 @@ const DailyFunNews = () => {
             const containerWidth = listRef.current.clientWidth;
             const itemWidth = 250;
             const numColumns = Math.max(1, Math.floor(containerWidth / itemWidth));
-            
-            const columnHeights = new Array(numColumns).fill(0); 
-            
+
+            const columnHeights = new Array(numColumns).fill(0);
+
             const items = Array.from(listRef.current.children) as HTMLDivElement[];
-            
+
             items.forEach((item) => {
                 const minColumnIndex = columnHeights.indexOf(Math.min(...columnHeights));
 
                 console.log(minColumnIndex)
 
                 item.style.gridColumnStart = String(minColumnIndex + 1);
-                const rowHeight = 20; 
+                const rowHeight = 20;
                 item.style.gridRowEnd = `span ${Math.ceil(item.clientHeight / rowHeight)}`;
 
                 columnHeights[minColumnIndex] += item.clientHeight;
@@ -80,7 +82,7 @@ const DailyFunNews = () => {
         <div className="daily">
             <h1>Daily Fun News</h1>
 
-            <div className="input">
+            {authenticated && <div className="input">
                 <textarea
                     value={newText}
                     onChange={(e) => setNewText(e.target.value)}
@@ -92,11 +94,11 @@ const DailyFunNews = () => {
                         Add Entry
                     </button>
                 </div>
-            </div>
+            </div>}
 
             <div className="list" ref={listRef}>
                 {dailyUpdates.map((update, i) => (
-                    <div key={update.id} className={`list-item-${i+1}`}>
+                    <div key={update.id} className={`list-item-${i + 1}`}>
                         <p className="text">{update.text}</p>
                         <p className="date">
                             {update.datetime.toDate().toLocaleString()}

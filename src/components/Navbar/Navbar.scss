@@ -134,15 +134,34 @@
                     top: -7px;
                 }
             }
+            .thabys{
+                position: absolute;
+                bottom: 16;
+                right: 16;
+                mix-blend-mode: screen;
+            }
             .content {
                 display: flex;
                 flex-direction: column;
                 &-item {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    font-size: 28px;
                     &.active {
                         text-decoration: none;
-                        font-size: 28px;
                         color: var(--purple-dark2);
                     }
+                    &.input{
+                        input{
+                            background: var(--purple-light);
+                            padding: 8px 10px;
+                            border-radius: 10px;
+                            border: 1px solid var(--purple-dark);
+                        }
+
+                    }
+
                 }
                 a {
                     text-decoration: none;
@@ -197,6 +216,10 @@
         }
         &-container {
             &-contents {
+                .thabys{
+                    width: 100%;
+                    height: auto;
+                }
                 .content {
                     &-item {
                         &.active {

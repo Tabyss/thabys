@@ -4,6 +4,7 @@ import './style.scss'
 import { addDoc, collection, getDocs, Timestamp } from "firebase/firestore";
 import { db } from "@/firebaseConfig";
 import { MdFormatListBulleted } from "react-icons/md";
+import { useAuth } from "@/context/auth/AuthProvider";
 
 type WordData = {
     word: string;
@@ -19,6 +20,7 @@ type WordData = {
 export default function Generate() {
     const [words, setWords] = useState<WordData[]>([]);
     const [loading, setLoading] = useState(false);
+    const { authenticated } = useAuth()
 
     const fetchWords = async () => {
         setLoading(true);
@@ -88,7 +90,7 @@ export default function Generate() {
             <div className="generator-btn">
                 <div className="button text">
                     <div className="shadow"></div>
-                    <button onClick={fetchWords} disabled={loading}>
+                    <button onClick={fetchWords} disabled={!authenticated || loading }>
                         {loading ? "Loading..." : "Learn Words"}
                     </button>
                 </div>
