@@ -6,6 +6,7 @@ export const NAV_ITEMS: NavbarItemType[] = [
   { type: "divider" },
   { type: "item", href: "/daily-fun", label: "Diary" },
   { type: "item", href: "/word-generator", label: "Generator" },
+  { type: "item", href: "https://yolor.thabys.fun", label: "Yolor" },
   { type: "divider" },
   { type: "item", href: "/admin", label: "Admin", locked: true },
 ];
