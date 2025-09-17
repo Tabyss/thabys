@@ -127,10 +127,10 @@ const LandV2 = () => {
                             src={slides[index].image}
                             alt={slides[index].title}
                             className="simple-slider"
+                            placeholder="blur"
                         />
                     </div>
                 </div>
-
             </div>
         </div >
     )

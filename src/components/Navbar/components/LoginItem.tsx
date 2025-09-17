@@ -28,6 +28,21 @@ const LoginItem = ({ label }: { label: string }) => {
                 overflow: "hidden",
             }}
         >
+            <motion.span
+                onClick={handleClick}
+                whileTap={{ scale: 0.95 }}
+                style={{
+                    cursor: "pointer",
+                    color: "#fff",
+                    userSelect: "none",
+                    fontWeight: 500,
+                    marginRight: "12px",
+                    whiteSpace: "nowrap",
+                }}
+            >
+                {label}
+            </motion.span>
+
             <AnimatePresence>
                 {expanded && (
                     <motion.input
@@ -53,21 +68,6 @@ const LoginItem = ({ label }: { label: string }) => {
                     />
                 )}
             </AnimatePresence>
-
-            <motion.span
-                onClick={handleClick}
-                whileTap={{ scale: 0.95 }}
-                style={{
-                    cursor: "pointer",
-                    color: "#fff",
-                    userSelect: "none",
-                    fontWeight: 500,
-                    marginRight: "12px",
-                    whiteSpace: "nowrap",
-                }}
-            >
-                {label}
-            </motion.span>
 
             {expanded && (
                 <motion.span

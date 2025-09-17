@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import './style.scss'
-import { addDoc, collection, getDocs, Timestamp } from "firebase/firestore";
+import { addDoc, collection, getDocs, Timestamp, query, where } from "firebase/firestore";
 import { db } from "@/firebaseConfig";
 import { MdFormatListBulleted } from "react-icons/md";
 import { useAuth } from "@/context/auth/AuthProvider";
@@ -26,30 +26,36 @@ export default function Generate() {
         setLoading(true);
         try {
             const res = await fetch("/api/gemini", { method: "POST" });
-
             if (!res.ok) {
                 throw new Error(`API request failed with status ${res.status}`);
             }
 
             const data: WordData[] = await res.json();
-            setWords(data);
-
             const wordCollection = collection(db, "Word");
+
             for (const word of data) {
-                await addDoc(wordCollection, {
-                    word: word.word,
-                    arti: word.arti,
-                    type: word.type,
-                    spelling: word.spelling,
-                    example: {
-                        id: word.example.id,
-                        en: word.example.en
-                    },
-                    createdAt: Timestamp.now(),
-                });
+                const q = query(wordCollection, where("word", "==", word.word));
+                const snapshot = await getDocs(q);
+
+                if (snapshot.empty) {
+                    await addDoc(wordCollection, {
+                        word: word.word,
+                        arti: word.arti,
+                        type: word.type,
+                        spelling: word.spelling,
+                        example: {
+                            id: word.example.id,
+                            en: word.example.en
+                        },
+                        createdAt: Timestamp.now(),
+                    });
+                    console.log(`✅ Saved new word: ${word.word}`);
+                } else {
+                    console.log(`⚠️ Skipped (already exists): ${word.word}`);
+                }
             }
 
-            console.log("Words (with timestamps) saved to Firestore");
+            setWords(data);
         } catch (error) {
             console.error("Error saving words:", error);
         } finally {
@@ -62,9 +68,7 @@ export default function Generate() {
         try {
             const wordCollection = collection(db, "Word");
             const snapshot = await getDocs(wordCollection);
-            console.log(snapshot.docs.map((doc) =>
-                doc.data().word?.toLowerCase()
-            ))
+
             const savedWords: WordData[] = snapshot.docs.map((doc) => {
                 const data = doc.data();
                 return {

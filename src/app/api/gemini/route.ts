@@ -33,6 +33,11 @@ async function callGeminiWithRetry(
     retries = 0
 ): Promise<string> {
     try {
+        // ✅ Log prompt yang dikirim
+        if (retries === 0) {
+            console.log("[Gemini Prompt]:", prompt);
+        }
+
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
         const result = await withTimeout(
             model.generateContent(prompt),
@@ -72,6 +77,8 @@ async function callGeminiWithRetry(
                     isQuotaError ? "Quota Exceeded" : "Timeout"
                 }. Retrying in ${delay / 1000} seconds...`
             );
+            // ✅ Tambah log prompt saat retry juga
+            console.log("[Gemini Prompt Retried]:", prompt);
             await new Promise((resolve) => setTimeout(resolve, delay));
             return callGeminiWithRetry(prompt, retries + 1);
         } else {
@@ -93,7 +100,9 @@ export async function POST() {
             limit(CACHE_MIN_WORDS)
         );
         const cachedSnapshot = await getDocs(cachedWordsQuery);
-        const fetchedWordsFromCache = cachedSnapshot.docs.map((doc) => doc.data());
+        const fetchedWordsFromCache = cachedSnapshot.docs.map((doc) =>
+            doc.data()
+        );
 
         if (fetchedWordsFromCache.length >= CACHE_MIN_WORDS) {
             console.log(
@@ -112,21 +121,16 @@ export async function POST() {
 
         console.log("[Cache Miss]: Fetching new words from Gemini API.");
 
-        const wordSnap = await getDocs(wordCollection);
-        const existingWords = wordSnap.docs.map((doc) =>
-            doc.data().word?.toLowerCase()
-        );
-        const maxExclude = 50;
-        const excludeList = existingWords.slice(-maxExclude).join(", ");
-
-        const prompt = `Provide 5 formal academic English words for intermediate IELTS learners, excluding: ${excludeList}.
-Format as JSON array of objects: {word, arti(Bahasa), spelling(phonetic), type(part of speech), grammar:{concept, explanation}, example:{en, id(Bahasa)}}.`;
+        const prompt = `Provide 5 formal academic English words for intermediate IELTS learners. Format as JSON array of objects: {word, arti(Bahasa), spelling(phonetic), type(part of speech), grammar:{concept, explanation}, example:{en, id(Bahasa)}}.`;
 
         const responseText = await callGeminiWithRetry(prompt);
 
         const jsonMatch = responseText.match(/\[\s*{[\s\S]*}\s*\]/);
         if (!jsonMatch) {
-            console.error("Failed to extract JSON from response:", responseText);
+            console.error(
+                "Failed to extract JSON from response:",
+                responseText
+            );
             throw new Error("Failed to extract JSON from Gemini response");
         }
 
@@ -162,10 +166,7 @@ Format as JSON array of objects: {word, arti(Bahasa), spelling(phonetic), type(p
 
             if (err.message?.includes("timed out")) {
                 status = 504;
-            } else if (
-                err.status === 429 ||
-                err.response?.status === 429
-            ) {
+            } else if (err.status === 429 || err.response?.status === 429) {
                 status = 429;
             }
 
