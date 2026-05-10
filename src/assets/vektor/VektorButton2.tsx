@@ -10,7 +10,6 @@ interface VectorProps {
 const VektorButton2 = ({
     width,
     fill,
-    stroke,
     strokeWidth,
 }: VectorProps) => {
     return (

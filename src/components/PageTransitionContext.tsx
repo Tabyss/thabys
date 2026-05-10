@@ -27,7 +27,7 @@ export function PageTransitionProvider({ children }: { children: React.ReactNode
             setIsActive(false);
             setTargetUrl(null);
         }
-    }, [pathname]);
+    }, [pathname, isActive]);
 
     return (
         <PageTransitionContext.Provider value={{ triggerTransition, isActive }}>

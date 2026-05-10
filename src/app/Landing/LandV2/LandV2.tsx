@@ -22,7 +22,6 @@ import frame3 from "@/assets/img/porto/sun1.png";
 import "./LandV2.scss";
 import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 import PortoModal from "../ModalImage/PortoModal";
-import TransitionLink from "@/components/PageTransition/TransitionLink";
 import { useLoaderReady } from "@/components/InitialLoader/InitialLoader";
 
 interface LandV2Props {
@@ -46,11 +45,10 @@ const LandV2 = ({ onAnimationDone }: LandV2Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const isReady = useLoaderReady();
-
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let ctx = gsap.context(() => {
+    const ctx = gsap.context(() => {
       gsap.set(
         [
           ".land-v2-logo",
@@ -113,7 +111,7 @@ const LandV2 = ({ onAnimationDone }: LandV2Props) => {
     }, containerRef);
 
     return () => ctx.revert();
-  }, [isReady]);
+  }, [isReady, onAnimationDone]);
 
   useEffect(() => {
     if (isModalOpen) return;

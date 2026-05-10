@@ -37,7 +37,7 @@ const Footer: React.FC = () => {
   const handleClick = (index: number): void => {
     if (board[index] || winner) return;
 
-    let newBoard = [...board];
+    const newBoard = [...board];
     newBoard[index] = "X";
 
     const playerWinStatus = checkWinner(newBoard);
@@ -105,7 +105,7 @@ const Footer: React.FC = () => {
 
     if (!blocked) {
       const bestMoves = [4, 0, 2, 6, 8, 1, 3, 5, 7];
-      for (let move of bestMoves) {
+      for (const move of bestMoves) {
         if (newBoard[move] === null) {
           newBoard[move] = "O";
           break;
@@ -148,7 +148,7 @@ const Footer: React.FC = () => {
           <div className="text-area">
             <div className="text-area-caption">
               <h2>{getDynamicHeadline()}</h2>
-              <h2>Let's build something amazing together.</h2>
+              <h2>Let&apos;s build something amazing together.</h2>
             </div>
             <a href="mailto:shabbahatha86@gmail.com" className="contact-btn">
               Get in Touch

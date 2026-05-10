@@ -33,7 +33,6 @@ export default function Home() {
     return () => mm.revert();
   }, []);
 
-  console.log(footerRef.current?.offsetHeight ,window.innerHeight)
 
   return (
     <main className="landing-page" ref={mainRef}>
