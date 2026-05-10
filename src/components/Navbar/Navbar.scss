@@ -85,6 +85,8 @@
             margin: 12px;
             height: calc(100% - 12px * 2);
             overflow: auto;
+            scrollbar-width: thin; 
+            scrollbar-color: var(--purple-dark) transparent; 
 
             @media (max-width: $breakpoint-tablet) {
                 grid-template-columns: repeat(2, 1fr);
@@ -93,9 +95,6 @@
             @media (max-width: $breakpoint-mobile) {
                 grid-template-columns: 1fr;
             }
-
-            scrollbar-width: thin; 
-            scrollbar-color: var(--purple-dark); 
 
             &::-webkit-scrollbar {
                 width: 8px;
