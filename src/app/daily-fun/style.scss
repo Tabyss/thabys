@@ -1,3 +1,4 @@
+@use "sass:list";
 $colors: (
     $yellow,
     $red,
@@ -93,7 +94,7 @@ $items : 100;
                 box-sizing: border-box;
                 display: flex;
                 flex-direction: column;
-                background-color: nth($colors, (($i - 1) % length($colors)) + 1);
+                background-color: list.nth($colors, (($i - 1) % list.length($colors)) + 1);
                 padding: 12px;
                 border-radius: 12px;
                 border: 3px solid #333;
