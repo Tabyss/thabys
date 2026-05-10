@@ -86,7 +86,7 @@ $items : 100;
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
         gap: 12px;
         width: 100%;
-        align-items: start;
+        align-items: flex-start;
         @for $i from 1 through $items {
             $index: (($i - 1) % 3) + 1;
             
