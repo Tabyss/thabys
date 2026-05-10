@@ -94,19 +94,19 @@
                 grid-template-columns: 1fr;
             }
 
-            scrollbar-width: thin; // Firefox: make scrollbar thin
-            scrollbar-color: var(--purple-dark); // Firefox colors
+            scrollbar-width: thin; 
+            scrollbar-color: var(--purple-dark); 
 
             &::-webkit-scrollbar {
                 width: 8px;
             }
 
             &::-webkit-scrollbar-track {
-                background: transparent; // track background
+                background: transparent; 
             }
 
             &::-webkit-scrollbar-thumb {
-                background-color: var(--purple-dark); // thumb color
+                background-color: var(--purple-dark); 
             }
 
             &::-webkit-scrollbar-thumb:hover {

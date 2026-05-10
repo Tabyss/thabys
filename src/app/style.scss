@@ -1,0 +1,23 @@
+.landing-page {
+  position: relative;
+}
+
+.footer-glass-overlay {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  
+  border-top: 1px solid rgba(255, 255, 255, 0.1); 
+  
+  min-height: 30vh; 
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .footer-glass-overlay {
+    background: var(--dark);
+  }
+}

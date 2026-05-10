@@ -1,4 +1,3 @@
-// NavbarItem.tsx
 import { FC } from "react";
 import { GiPadlock } from "react-icons/gi";
 import LoginItem from "./LoginItem";

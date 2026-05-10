@@ -1,17 +1,40 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext, useContext } from "react";
 import "./InitialLoader.scss";
 import { motion, AnimatePresence } from "framer-motion";
 import VektorText from "@/assets/vektor/letter/VektorText";
 
+const LoaderContext = createContext<boolean>(false);
+
+export const useLoaderReady = () => useContext(LoaderContext);
+
 export default function InitialLoader({ children }: { children: React.ReactNode }) {
     const [loading, setLoading] = useState(true);
     const [currentLetter, setCurrentLetter] = useState<number>(0);
+    const [isReady, setIsReady] = useState(false);
 
     useEffect(() => {
-        const timer = setTimeout(() => setLoading(false), 1500 * 6 + 500);
-        return () => clearTimeout(timer);
+        const hasLoaded = sessionStorage.getItem("app_loaded");
+        if (hasLoaded) {
+            setLoading(false);
+            setIsReady(true); 
+            return;
+        }
+
+        const loadTimer = setTimeout(() => {
+            setLoading(false);
+            sessionStorage.setItem("app_loaded", "true");
+        }, 1500 * 6 + 500);
+
+        const readyTimer = setTimeout(() => {
+            setIsReady(true);
+        }, 1500 * 6 + 1000);
+
+        return () => {
+            clearTimeout(loadTimer);
+            clearTimeout(readyTimer);
+        };
     }, []);
 
     useEffect(() => {
@@ -28,7 +51,7 @@ export default function InitialLoader({ children }: { children: React.ReactNode 
     }, [loading]);
 
     return (
-        <>
+        <LoaderContext.Provider value={isReady}>
             {children}
             <AnimatePresence mode="wait">
                 {loading && (
@@ -49,6 +72,6 @@ export default function InitialLoader({ children }: { children: React.ReactNode 
                     </motion.div>
                 )}
             </AnimatePresence>
-        </>
+        </LoaderContext.Provider>
     );
 }

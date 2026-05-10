@@ -1,4 +1,3 @@
-// api/gemini.ts
 import { NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { db } from "@/firebaseConfig";
@@ -12,7 +11,6 @@ import {
     limit,
 } from "firebase/firestore";
 
-// ✅ Initialize Gemini
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
 const MAX_RETRIES = 5;
@@ -33,7 +31,6 @@ async function callGeminiWithRetry(
     retries = 0
 ): Promise<string> {
     try {
-        // ✅ Log prompt yang dikirim
         if (retries === 0) {
             console.log("[Gemini Prompt]:", prompt);
         }
@@ -77,7 +74,6 @@ async function callGeminiWithRetry(
                     isQuotaError ? "Quota Exceeded" : "Timeout"
                 }. Retrying in ${delay / 1000} seconds...`
             );
-            // ✅ Tambah log prompt saat retry juga
             console.log("[Gemini Prompt Retried]:", prompt);
             await new Promise((resolve) => setTimeout(resolve, delay));
             return callGeminiWithRetry(prompt, retries + 1);

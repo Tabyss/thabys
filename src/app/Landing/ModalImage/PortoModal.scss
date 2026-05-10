@@ -1,0 +1,186 @@
+.porto-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 15, 15, 0.7);
+  backdrop-filter: blur(15px); 
+  -webkit-backdrop-filter: blur(15px);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.4s ease-out;
+
+  .modal-content {
+    position: relative;
+    width: 90%;
+    max-width: 800px;
+    outline: none;
+  }
+
+  .card-animation-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: cardEntrance 0.5s cubic-bezier(0.23, 1, 0.32, 1) both;
+
+    .image-container {
+      height: 70vh;
+      width: max-content; 
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: var(--dark);
+
+      .modal-image-card {
+        max-height: 100%;
+        max-width: 100%;
+        width: auto;
+        height: auto;
+
+        object-fit: contain; 
+        display: block;
+        transition: transform 0.3s ease;
+      }
+    }
+  }
+
+  .modal-caption {
+    margin-top: 25px;
+    text-align: center;
+    color: var(--light);
+
+    h3 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 15px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .indicator-bar {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+
+        &.active {
+          background: var(--purple-dark2, #a855f7);
+          width: 24px;
+          border-radius: 10px;
+        }
+      }
+    }
+  }
+
+  .modal-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--light);
+    width: 50px;
+    height: 50px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 10;
+
+    &:hover {
+      background: var(--light);
+      color: black;
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    &.prev {
+      left: 30px;
+    }
+    &.next {
+      right: 30px;
+    }
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: var(--light);
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    &:hover {
+      background: var(--red);
+    }
+  }
+}
+
+@keyframes cardEntrance {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .porto-modal-overlay {
+    .modal-nav {
+      bottom: 40px;
+      top: auto;
+      transform: none;
+      &.prev {
+        left: 30px;
+      }
+      &.next {
+        right: 30px;
+      }
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+    .modal-content {
+      width: 90vw ;
+    }
+    .card-animation-wrapper{
+      .image-container {
+        max-height: 70vh;
+        height: max-content;
+        width: 90vw;
+      }
+    }
+  }
+}
